@@ -45,7 +45,10 @@ function init() {
     run ovpn_genconfig -u udp://$HOST
     run ovpn_initpki
 
-    sudo chown -R $(whoami): $OPENVPN_DIR
+    if [[ "$EUID" -ne 0 ]]; then
+        sudo chown -R $(whoami): $OPENVPN_DIR
+    fi
+
     sed -i 's/\/tmp\/openvpn-status.log/\/var\/log\/openvpn-status.log/g' $OPENVPN_CONFIG/openvpn.conf
 }
 
