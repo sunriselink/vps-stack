@@ -1,0 +1,56 @@
+services:
+  openvpn:
+    image: kylemanna/openvpn:2.4
+    container_name: openvpn
+    restart: unless-stopped
+    cap_add:
+      - NET_ADMIN
+    ports:
+      - ${OPENVPN_PORT}:1194/udp
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${OPENVPN_CONFIG}:/etc/openvpn
+      - ${OPENVPN_LOGS}:/var/log
+    healthcheck:
+      test: test -f /var/log/openvpn-status.log
+      interval: 5s
+      timeout: 5s
+      retries: 5
+      start_period: 60s
+
+  openvpn_exporter:
+    image: kumina/openvpn-exporter:v0.2.2
+    container_name: openvpn_exporter
+    restart: unless-stopped
+    command: -openvpn.status_paths /etc/openvpn_exporter/openvpn-status.log
+    volumes:
+      - /etc/localtime:/etc/localtime:ro
+      - ${OPENVPN_LOGS}/openvpn-status.log:/etc/openvpn_exporter/openvpn-status.log:ro
+    depends_on:
+      openvpn:
+        condition: service_healthy
+
+  prometheus:
+    image: prom/prometheus:v3.2.1
+    container_name: prometheus
+    restart: unless-stopped
+    volumes:
+      - ${PROMETHEUS_DIR}/prometheus.yml:/etc/prometheus/prometheus.yml:ro
+    depends_on:
+      openvpn_exporter:
+        condition: service_started
+
+  grafana:
+    image: grafana/grafana:11.5.2
+    container_name: grafana
+    restart: unless-stopped
+    ports:
+      - 3000:3000
+    volumes:
+      - ${GRAFANA_DIR}:/etc/grafana/provisioning/datasources
+    environment:
+      - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
+      - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
+    depends_on:
+      prometheus:
+        condition: service_started

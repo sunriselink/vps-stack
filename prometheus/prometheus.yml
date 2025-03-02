@@ -1,0 +1,8 @@
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+
+scrape_configs:
+  - job_name: "openvpn"
+    static_configs:
+      - targets: ["openvpn_exporter:9176"]
