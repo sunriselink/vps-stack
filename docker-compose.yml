@@ -3,6 +3,7 @@ services:
     image: kylemanna/openvpn:2.4
     container_name: openvpn
     restart: unless-stopped
+    command: ovpn_run --status-version 3
     cap_add:
       - NET_ADMIN
     ports:
@@ -22,10 +23,10 @@ services:
     image: kumina/openvpn-exporter:v0.2.2
     container_name: openvpn_exporter
     restart: unless-stopped
-    command: -openvpn.status_paths /etc/openvpn_exporter/openvpn-status.log
+    command: -openvpn.status_paths /etc/openvpn_logs/openvpn-status.log
     volumes:
       - /etc/localtime:/etc/localtime:ro
-      - ${OPENVPN_LOGS}/openvpn-status.log:/etc/openvpn_exporter/openvpn-status.log:ro
+      - ${OPENVPN_LOGS}:/etc/openvpn_logs:ro
     depends_on:
       openvpn:
         condition: service_healthy
@@ -44,10 +45,12 @@ services:
     image: grafana/grafana:11.5.2
     container_name: grafana
     restart: unless-stopped
+    user: "0"
     ports:
       - 3000:3000
     volumes:
-      - ${GRAFANA_DIR}:/etc/grafana/provisioning/datasources
+      - ${GRAFANA_DATA}:/var/lib/grafana
+      - ${GRAFANA_DATASOURCES}:/etc/grafana/provisioning/datasources
     environment:
       - GF_SECURITY_ADMIN_USER=${GRAFANA_ADMIN_USER}
       - GF_SECURITY_ADMIN_PASSWORD=${GRAFANA_ADMIN_PASSWORD}
