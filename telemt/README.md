@@ -5,6 +5,9 @@
 Create a `config.user.toml` file with the following content
 
 ```toml
+[general.links]
+public_host = "<server ip>"
+
 [censorship]
 tls_domain = "<TLS domain for fake TLS handshake profile>"
 mask = true

@@ -22,6 +22,10 @@ services:
       - ./config.user.toml:/run/telemt/config.user.toml:ro
     tmpfs:
       - /run/telemt:rw,mode=1777,size=1m
+    ulimits:
+      nofile:
+        soft: 65536
+        hard: 65536
 
 networks:
   default:
