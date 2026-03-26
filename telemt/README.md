@@ -31,5 +31,5 @@ docker compose up -d
 Get the links
 
 ```sh
-curl -s http://localhost:9091/v1/users | jq
+curl -s http://localhost:9091/v1/users | jq -r '.data[] | "\(.username): \(.links.tls[0])"'
 ```
