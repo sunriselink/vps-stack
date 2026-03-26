@@ -1,0 +1,30 @@
+services:
+  telemt:
+    image: ghcr.io/telemt/telemt:3.3.32
+    container_name: telemt
+    restart: unless-stopped
+    read_only: true
+    working_dir: /run/telemt
+    environment:
+      RUST_LOG: info
+    ports:
+      - 443:443
+      - 127.0.0.1:9090:9090 # metrics
+      - 127.0.0.1:9091:9091 # api
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_BIND_SERVICE
+    security_opt:
+      - no-new-privileges:true
+    volumes:
+      - ./config.toml:/run/telemt/config.toml:ro
+      - ./config.user.toml:/run/telemt/config.user.toml:ro
+    tmpfs:
+      - /run/telemt:rw,mode=1777,size=1m
+
+networks:
+  default:
+    name: telemt
+    driver_opts:
+      com.docker.network.bridge.name: br-telemt

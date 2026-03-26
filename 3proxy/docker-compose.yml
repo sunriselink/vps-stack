@@ -1,0 +1,22 @@
+services:
+  3proxy:
+    image: 3proxy/3proxy:0.9.5
+    container_name: 3proxy
+    restart: unless-stopped
+    user: ${PUID:?}:${PGID:?}
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges=true
+    ports:
+      - ${PROXY_PORT:?}:5000
+    volumes:
+      - ./logs:/var/logs/3proxy
+      - ./3proxy.cfg:/etc/3proxy/3proxy.cfg:ro
+      - ./.3proxypasswd:/etc/3proxy/.3proxypasswd:ro
+
+networks:
+  default:
+    name: 3proxy
+    driver_opts:
+      com.docker.network.bridge.name: br-3proxy
