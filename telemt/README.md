@@ -2,6 +2,8 @@
 
 ## Initial setup
 
+Create `.env` file based on `.env.example` template and fill missing variables
+
 Create a `config.user.toml` file with the following content
 
 ```toml
@@ -34,5 +36,11 @@ docker compose up -d
 Get the links
 
 ```sh
-curl -s http://localhost:9091/v1/users | jq -r '.data[] | "\(.username): \(.links.tls[0])"'
+curl -s http://localhost:${API_PORT}/v1/users | jq -r '.data[] | "\(.username): \(.links.tls[0])"'
+```
+
+Metrics
+
+```sh
+curl -s http://localhost:${METRICS_PORT}/metrics
 ```
