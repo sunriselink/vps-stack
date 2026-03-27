@@ -33,10 +33,10 @@ Run Telemt
 docker compose up -d
 ```
 
-Get the links
+Get the users and links
 
 ```sh
-curl -s http://localhost:${API_PORT}/v1/users | jq -r '.data[] | "\(.username): \(.links.tls[0])"'
+./get-users.sh
 ```
 
 Metrics
