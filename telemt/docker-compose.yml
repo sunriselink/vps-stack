@@ -1,6 +1,6 @@
 services:
   telemt:
-    image: ghcr.io/telemt/telemt:3.3.32
+    image: ghcr.io/telemt/telemt:3.3.35
     container_name: telemt
     restart: unless-stopped
     read_only: true
