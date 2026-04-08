@@ -33,6 +33,18 @@ Run Telemt
 docker compose up -d
 ```
 
+## Telemt Panel
+
+Forward port to your host machine
+
+```sh
+ssh -NL <host port>:127.0.0.1:<panel port> username@server
+```
+
+Go to `http://localhost:<host port>`. Login/password: `admin:admin` (see [config](./config.panel.toml))
+
+## Additiona info
+
 Get users info (short by default)
 
 ```sh

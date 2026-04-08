@@ -7,11 +7,8 @@ Run only `beszel` container
 ```sh
 docker compose up -d beszel
 
-# Getting internal container ip (on server)
-docker inspect beszel | jq -r ".[].NetworkSettings.Networks.beszel.IPAddress"
-
 # Forward beszel port to your host machine
-ssh -NL 8090:<container ip>:8090 username@server
+ssh -NL 8090:127.0.0.1:8090 username@server
 ```
 
 Go to `http://localhost:8090`. Follow the [instruction](https://beszel.dev/guide/getting-started#_2-create-an-admin-user).
