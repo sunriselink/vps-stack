@@ -1,0 +1,11 @@
+listen = "0.0.0.0:8080"
+
+[telemt]
+url = "http://telemt:9091"
+
+# admin:admin
+[auth]
+username = "admin"
+password_hash = "$2a$12$rjhV3VXp740k5RbnlLkmxOQX6RnW12JYGUPCZWaNyPTrNhJqCjCgm"
+jwt_secret = "497bbb8787122fce6ccd26e066c6fa85c5b5ca2bb9086ef9dae457c59a0ff15c"
+session_ttl = "24h"

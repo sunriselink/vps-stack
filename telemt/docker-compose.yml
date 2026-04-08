@@ -1,6 +1,6 @@
 services:
   telemt:
-    image: ghcr.io/telemt/telemt:3.3.35
+    image: ghcr.io/telemt/telemt:3.3.39
     container_name: telemt
     restart: unless-stopped
     read_only: true
@@ -8,7 +8,7 @@ services:
     environment:
       RUST_LOG: info
     ports:
-      - 443:443
+      - ${PUBLIC_PORT:?}:443
       - 127.0.0.1:${METRICS_PORT:?}:9090
       - 127.0.0.1:${API_PORT:?}:9091
     cap_drop:
@@ -26,6 +26,22 @@ services:
       nofile:
         soft: 65536
         hard: 65536
+
+  telemt-panel:
+    image: ghcr.io/amirotin/telemt_panel:0.5.2
+    container_name: telemt-panel
+    restart: unless-stopped
+    user: nobody:nogroup
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    ports:
+      - 127.0.0.1:${PANEL_PORT:?}:8080
+    volumes:
+      - ./config.panel.toml:/etc/telemt-panel/config.toml:ro
+    depends_on:
+      - telemt
 
 networks:
   default:
