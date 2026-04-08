@@ -33,14 +33,15 @@ Run Telemt
 docker compose up -d
 ```
 
-Get the users and links
+Get users info (short by default)
 
 ```sh
-./get-users.sh
+./get-users.sh [full]
 ```
 
 Metrics
 
 ```sh
+source .env
 curl -s http://localhost:${METRICS_PORT}/metrics
 ```
