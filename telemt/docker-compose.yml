@@ -2,7 +2,7 @@ services:
   telemt:
     image: ghcr.io/telemt/telemt:3.3.39
     container_name: telemt
-    restart: unless-stopped
+    restart: always
     read_only: true
     working_dir: /run/telemt
     environment:
@@ -30,7 +30,7 @@ services:
   telemt-panel:
     image: ghcr.io/amirotin/telemt_panel:0.5.2
     container_name: telemt-panel
-    restart: unless-stopped
+    restart: always
     user: nobody:nogroup
     security_opt:
       - no-new-privileges:true

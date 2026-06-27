@@ -2,7 +2,7 @@ services:
   beszel:
     image: ghcr.io/henrygd/beszel/beszel:0.18.4
     container_name: beszel
-    restart: unless-stopped
+    restart: always
     environment:
       APP_URL: http://localhost:8090
     ports:
@@ -14,7 +14,7 @@ services:
   beszel-agent:
     image: ghcr.io/henrygd/beszel/beszel-agent:0.18.4-alpine
     container_name: beszel-agent
-    restart: unless-stopped
+    restart: always
     network_mode: host
     environment:
       LISTEN: /beszel_socket/beszel.sock
