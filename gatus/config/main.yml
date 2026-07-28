@@ -1,0 +1,12 @@
+storage:
+  type: memory
+
+alerting:
+  telegram:
+    id: ${TELEGRAM_CHAT_ID}
+    token: ${TELEGRAM_BOT_TOKEN}
+    default-alert:
+      enabled: true
+      failure-threshold: 3
+      success-threshold: 1
+      send-on-resolved: true
