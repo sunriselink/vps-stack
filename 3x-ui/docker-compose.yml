@@ -1,0 +1,21 @@
+services:
+  3x-ui:
+    image: ghcr.io/mhsanaei/3x-ui:v3.8.5
+    container_name: 3x-ui
+    restart: always
+    network_mode: host
+    security_opt:
+      - no-new-privileges:true
+    cap_drop:
+      - ALL
+    cap_add:
+      - NET_ADMIN
+      - NET_RAW
+    environment:
+      XUI_DB_TYPE: sqlite
+      XUI_ENABLE_FAIL2BAN: true
+      XUI_LOG_LEVEL: info
+      TZ: ${TZ:?}
+    volumes:
+      - ./db:/etc/x-ui
+      - ./cert:/root/cert
