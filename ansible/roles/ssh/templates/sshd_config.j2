@@ -1,0 +1,10 @@
+Port {{ ssh_port }}
+
+PermitRootLogin no
+PasswordAuthentication no
+KbdInteractiveAuthentication no
+PubkeyAuthentication yes
+
+UsePAM yes
+
+Subsystem sftp /usr/lib/openssh/sftp-server
