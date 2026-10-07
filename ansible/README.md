@@ -54,7 +54,7 @@ user_ssh_private_key_path: '~/.ssh/ansible_key'
 Initial server setup:
 
 ```bash
-./ansible-docker.sh ansible-playbook -i inventory.yml bootstrap.yml --ask-pass
+./ansible-docker.sh ansible-playbook bootstrap.yml --ask-pass
 ```
 
 The first play connects as `root` on port `22`. After SSH configuration is applied, the second play reconnects using the new user, SSH port, and private key.
@@ -64,5 +64,5 @@ The first play connects as `root` on port `22`. After SSH configuration is appli
 After `bootstrap.yml` has completed successfully, you can run any individual role:
 
 ```bash
-./ansible-docker.sh ansible-playbook -i inventory.yml run.yml -e role=<role name>
+./ansible-docker.sh ansible-playbook run.yml -e role=<role name>
 ```
